@@ -3,12 +3,14 @@ from player import player
 from Grid import Grid
 import asyncio
 
-Screen_width = 600
-Screen_height = 400
+Rows = 250
+Cols = 250
+Screen_width = 500
+Screen_height = 500
 
 pygame.init()
 
-screen = pygame.display.set_mode((600, 400))
+screen = pygame.display.set_mode((Screen_width, Screen_height))
 bg = pygame.Surface(screen.get_size())
 bg.fill((0, 0, 0))
 
@@ -16,7 +18,7 @@ bg.fill((0, 0, 0))
 # sg = pygame.sprite.Group()
 # sg.add(play)
 
-main_grid = Grid(80, 120, 600, 400)
+main_grid = Grid(Rows, Cols, Screen_width, Screen_height)
 
 async def main():
 

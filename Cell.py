@@ -12,6 +12,6 @@ class Cell:
         '''Override this method in subclasses to define the behavior of the cell'''
         pass
     
-    def render(self):
+    def render(self, screen, cell_width: int, cell_height: int):
         '''Override this method in subclasses to define how the cell is drawn'''
         pass

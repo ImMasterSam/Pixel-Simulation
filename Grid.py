@@ -25,6 +25,7 @@ class Grid:
         self.cell_height = height // rows
 
         self.mouse_pressed = False
+        self.mouse_erase = False
         self.mouse_grid_pos = (0, 0)
         self.place_cell_type = 1
         self.place_range = 1
@@ -69,9 +70,15 @@ class Grid:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.mouse_pressed = True
+            if event.button == 3:
+                self.mouse_pressed = True
+                self.mouse_erase = True
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 self.mouse_pressed = False
+            if event.button == 3:
+                self.mouse_pressed = False
+                self.mouse_erase = False
         if event.type == pygame.MOUSEWHEEL:
             self.place_range += event.y
             if self.place_range < 1:
@@ -117,16 +124,22 @@ class Grid:
         '''Adds a cell to the grid at the given position'''
 
         for row, col in pos:
-            if self.grid[row][col].type != 0:
-                return
-            
-            match self.place_cell_type:
-                case 1:
-                    self.grid[row][col] = Sand(self, row, col)
-                case 2:
-                    self.grid[row][col] = Water(self, row, col)
-                case 3:
-                    self.grid[row][col] = Rock(self, row, col)
+
+            if self.mouse_erase:
+                if self.grid[row][col].type == 0:
+                    continue
+                self.grid[row][col] = Cell(self, row, col)
+            else:         
+                if self.grid[row][col].type != 0:
+                    continue
+                
+                match self.place_cell_type:
+                    case 1:
+                        self.grid[row][col] = Sand(self, row, col)
+                    case 2:
+                        self.grid[row][col] = Water(self, row, col)
+                    case 3:
+                        self.grid[row][col] = Rock(self, row, col)
 
     def getCellType(self, row: int, col: int) -> int:
         '''Returns the type of the cell at the given position'''

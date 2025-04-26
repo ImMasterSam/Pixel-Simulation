@@ -1,7 +1,6 @@
 import pygame
-from player import player
 from Grid import Grid
-from FPS import FPS
+from Text.FPS import FPS
 import asyncio
 
 Rows = 100

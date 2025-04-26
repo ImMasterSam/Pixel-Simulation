@@ -3,20 +3,18 @@ from player import player
 from Grid import Grid
 import asyncio
 
-Rows = 250
-Cols = 250
+Rows = 100
+Cols = 100
 Screen_width = 500
 Screen_height = 500
+FPS = 60
 
 pygame.init()
 
+pygame.display.set_caption("Pixel Simulation")
 screen = pygame.display.set_mode((Screen_width, Screen_height))
 bg = pygame.Surface(screen.get_size())
 bg.fill((0, 0, 0))
-
-# play = player(50, 50, 50)
-# sg = pygame.sprite.Group()
-# sg.add(play)
 
 main_grid = Grid(Rows, Cols, Screen_width, Screen_height)
 
@@ -27,7 +25,7 @@ async def main():
 
     while Running:
 
-        clock.tick(60)
+        clock.tick(FPS)
 
         for event in pygame.event.get():
             main_grid.handlEvents(event)

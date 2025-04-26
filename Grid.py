@@ -1,5 +1,9 @@
 import pygame
+import math
 from Cell import Cell
+from Cells.Sand import Sand
+from Cells.Water import Water
+from Cells.Rock import Rock
 
 class Grid:
 
@@ -21,28 +25,46 @@ class Grid:
         self.cell_height = height // rows
 
         self.mouse_pressed = False
+        self.mouse_grid_pos = (0, 0)
+        self.place_cell_type = 1
+        self.place_range = 1
 
         self.grid = [[Cell(self, r, c) for c in range(cols)] for r in range(rows)]
 
     # Main functions
     def update(self):
+        '''Updates every cells of the grid'''
+
         mouse_pos = pygame.mouse.get_pos()
-        mouse_col = mouse_pos[0] // self.cell_width
-        mouse_row = mouse_pos[1] // self.cell_height
+        self.mouse_grid_pos = (mouse_pos[0] // self.cell_width, mouse_pos[1] // self.cell_height)
 
         if self.mouse_pressed:
-            self.addCell(mouse_row, mouse_col, 1)
+            sel_range = self.selectRange(self.mouse_grid_pos[1], self.mouse_grid_pos[0])
+            self.addCells(sel_range)
 
         for row in range(self.rows-1, -1, -1):
-            for col in range(self.cols-1, -1, -1):
+            for col in range(self.cols):
                 self.grid[row][col].update()
 
+
     def render(self, screen):
+        '''Draws every cells of the grid on the screen'''
+
         for row in range(self.rows):
             for col in range(self.cols):
                 self.grid[row][col].render(screen, self.cell_width, self.cell_height)
 
+        grid_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+
+        sel_range = self.selectRange(self.mouse_grid_pos[1], self.mouse_grid_pos[0])
+        for row, col in sel_range:
+            pygame.draw.rect(grid_surface, (196, 196, 196, 128), (col * self.cell_width, row * self.cell_height, self.cell_width, self.cell_height))
+        
+        screen.blit(grid_surface, (0, 0))
+
+
     def handlEvents(self, event: pygame.event.Event):
+        '''Handles every events'''
         # Mouse events
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -50,14 +72,67 @@ class Grid:
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 self.mouse_pressed = False
+        if event.type == pygame.MOUSEWHEEL:
+            self.place_range += event.y
+            if self.place_range < 1:
+                self.place_range = 1
+            if self.place_range > 10:
+                self.place_range = 10
+
+        # Keyboard events
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                self.place_cell_type = 1
+            if event.key == pygame.K_2:
+                self.place_cell_type = 2
+            if event.key == pygame.K_3:
+                self.place_cell_type = 3
+            if event.key == pygame.K_r:
+                self.grid = [[Cell(self, r, c) for c in range(self.cols)] for r in range(self.rows)]
 
                 
     # Cell functions
-    def addCell(self, row: int, col: int, type: int):
-        if (row >= 0 and row < self.rows) and (col >= 0 and col < self.cols):
-            self.grid[row][col] = Cell(self, row, col, type)
+    def selectRange(self, row: int, col: int) -> list[tuple[int, int]]:
+        '''Returns a list of cells in the range of the given cell'''
 
-    def getCellType(self, row: int, col: int):
+        positions = []
+
+        for i in range(-self.place_range + 1, self.place_range):
+            for j in range(-self.place_range + 1, self.place_range):
+
+                if math.sqrt(i**2 + j**2) >= self.place_range:
+                    continue
+
+                next_row = row + i
+                next_col = col + j
+
+                if not ((next_row >= 0 and next_row < self.rows) and (next_col >= 0 and next_col < self.cols)):
+                    continue
+
+                positions.append((next_row, next_col))
+
+        return positions
+
+    def addCells(self, pos: list[tuple[int, int]]):
+        '''Adds a cell to the grid at the given position'''
+
+        for row, col in pos:
+            if self.grid[row][col].type != 0:
+                return
+            
+            match self.place_cell_type:
+                case 1:
+                    self.grid[row][col] = Sand(self, row, col)
+                case 2:
+                    self.grid[row][col] = Water(self, row, col)
+                case 3:
+                    self.grid[row][col] = Rock(self, row, col)
+
+    def getCellType(self, row: int, col: int) -> int:
+        '''Returns the type of the cell at the given position'''
+
+        # Check if the row and col are within bounds
+        # Return None if out of bounds
         if (row >= 0 and row < self.rows) and (col >= 0 and col < self.cols):
             return self.grid[row][col].type
         else:
@@ -68,5 +143,5 @@ class Grid:
             cell1 = self.grid[row1][col1]
             cell2 = self.grid[row2][col2]
 
-            self.grid[row1][col1] = Cell(self, row1, col1, cell2.type)
-            self.grid[row2][col2] = Cell(self, row2, col2, cell1.type)
+            self.grid[row1][col1] = cell2.__class__(self, row1, col1)
+            self.grid[row2][col2] = cell1.__class__(self, row2, col2)

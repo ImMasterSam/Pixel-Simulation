@@ -6,6 +6,7 @@ class Cell:
         self.grid = grid
         self.row = row
         self.col = col
+        self.color = (0, 0, 0)
         self.type = type
 
     def update(self):

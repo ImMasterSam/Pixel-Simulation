@@ -153,8 +153,8 @@ class Grid:
         
     def swapCell(self, row1: int, col1: int, row2: int, col2: int):
         if (row1 >= 0 and row1 < self.rows) and (col1 >= 0 and col1 < self.cols) and (row2 >= 0 and row2 < self.rows) and (col2 >= 0 and col2 < self.cols):
-            cell1 = self.grid[row1][col1]
-            cell2 = self.grid[row2][col2]
-
-            self.grid[row1][col1] = cell2.__class__(self, row1, col1)
-            self.grid[row2][col2] = cell1.__class__(self, row2, col2)
+            
+            self.grid[row1][col1], self.grid[row2][col2] = self.grid[row2][col2], self.grid[row1][col1]
+            # Update positions
+            self.grid[row1][col1].row, self.grid[row1][col1].col = row1, col1
+            self.grid[row2][col2].row, self.grid[row2][col2].col = row2, col2

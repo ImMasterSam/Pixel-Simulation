@@ -21,6 +21,3 @@ class Sand(Cell):
             if next_type == 0 or next_type == 2: 
                 self.grid.swapCell(self.row, self.col, next_row, next_col)
                 break 
-
-    def render(self, screen, cell_width: int, cell_height: int):
-        pygame.draw.rect(screen, self.color, (self.col * cell_width, self.row * cell_height, cell_width, cell_height))

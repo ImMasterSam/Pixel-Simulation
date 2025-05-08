@@ -2,7 +2,7 @@ import pygame
 import math
 from Cell import Cell
 from Cells.Sand import Sand
-from Cells.Water import Water
+from Cells.Liquid_types import Water, Oil
 from Cells.Rock import Rock
 
 class Grid:
@@ -94,6 +94,8 @@ class Grid:
                 self.place_cell_type = 2
             if event.key == pygame.K_3:
                 self.place_cell_type = 3
+            if event.key == pygame.K_4:
+                self.place_cell_type = 4
             if event.key == pygame.K_r:
                 self.grid = [[Cell(self, r, c) for c in range(self.cols)] for r in range(self.rows)]
 
@@ -140,6 +142,8 @@ class Grid:
                         self.grid[row][col] = Water(self, row, col)
                     case 3:
                         self.grid[row][col] = Rock(self, row, col)
+                    case 4:
+                        self.grid[row][col] = Oil(self, row, col)
 
     def getCellType(self, row: int, col: int) -> int:
         '''Returns the type of the cell at the given position'''

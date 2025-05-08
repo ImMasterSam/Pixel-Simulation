@@ -12,6 +12,3 @@ class Rock(Cell):
 
     def update(self):
         pass
-
-    def render(self, screen, cell_width: int, cell_height: int):
-        pygame.draw.rect(screen, self.color, (self.col * cell_width, self.row * cell_height, cell_width, cell_height))

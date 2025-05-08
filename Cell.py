@@ -14,5 +14,6 @@ class Cell:
         pass
     
     def render(self, screen, cell_width: int, cell_height: int):
-        '''Override this method in subclasses to define how the cell is drawn'''
-        pass
+        '''Draws the cell on the screen at its position'''
+        if self.type != 0:
+            pygame.draw.rect(screen, self.color, (self.col * cell_width, self.row * cell_height, cell_width, cell_height))

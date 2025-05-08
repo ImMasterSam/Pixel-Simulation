@@ -1,14 +1,10 @@
-import pygame
-from random import choice
 from Cell import Cell
 
-class Water(Cell):
+class Liquid(Cell):
 
-    color_list = [(0, 0, 255), (30, 30, 255), (50, 50, 255)]
-
-    def __init__(self, grid, row: int, col: int):
-        super().__init__(grid, row, col, 2)  # 2 for water type
-        self.color = choice(self.color_list)
+    def __init__(self, grid, row: int, col: int, type: int = 0):
+        super().__init__(grid, row, col, type)
+        self.dispersionRate = 0
 
     def update(self):
 
@@ -71,7 +67,3 @@ class Water(Cell):
             self.grid.swapCell(self.row, self.col, self.row, self.col + left)
         elif right is not None:
             self.grid.swapCell(self.row, self.col, self.row, self.col + right)
-
-
-    def render(self, screen, cell_width: int, cell_height: int):
-        pygame.draw.rect(screen, self.color, (self.col * cell_width, self.row * cell_height, cell_width, cell_height))

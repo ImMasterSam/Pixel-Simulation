@@ -1,5 +1,6 @@
 import pygame
 import math
+from ControlPanel.Panel import Panel
 from Cell import Cell
 from Cells.Solid.Moveable.sand import Sand
 from Cells.Solid.Immoveable.rock import Rock
@@ -36,10 +37,10 @@ class Grid:
         self.grid = [[Cell(self, r, c) for c in range(cols)] for r in range(rows)]
 
     # Main functions
-    def update(self):
+    def update(self, mouse_pos: tuple[int, int], panel: Panel):
         '''Updates every cells of the grid'''
 
-        mouse_pos = pygame.mouse.get_pos()
+        self.place_cell_type = panel.place_cell_type
         self.mouse_grid_pos = (mouse_pos[0] // self.cell_width, mouse_pos[1] // self.cell_height)
 
         if self.mouse_pressed:
@@ -117,6 +118,11 @@ class Grid:
             if event.key == pygame.K_r:
                 self.grid = [[Cell(self, r, c) for c in range(self.cols)] for r in range(self.rows)]
 
+    # Control functions
+    @classmethod
+    def setCellType(self, cell_type: int):
+        '''Sets the type of the cell to be placed'''
+        self.place_cell_type = cell_type
                 
     # Cell functions
     def selectRange(self, row: int, col: int) -> list[tuple[int, int]]:

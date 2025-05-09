@@ -58,7 +58,7 @@ class MoveableSolid(Solid):
                 next_col = self.col + offset
 
                 next_type = self.grid.getCellType(next_row, next_col)
-                if next_type == 0 or next_type == 2: 
+                if next_type == 0: 
                         self.isFreeFalling = True
                         self.velocity[1] = 1
 

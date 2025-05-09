@@ -8,6 +8,7 @@ class Cell:
         self.col = col
         self.color = (0, 0, 0)
         self.type = type
+        self.updated = False
 
     def update(self):
         '''Override this method in subclasses to define the behavior of the cell'''

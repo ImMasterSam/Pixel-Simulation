@@ -1,3 +1,4 @@
+from random import choice
 from Cell import Cell
 
 class Liquid(Cell):
@@ -21,49 +22,33 @@ class Liquid(Cell):
                 return
             
         # Horizontal movement
+        left, right = 0, 0
+
         # Check left cells
-        offset = 1
-        left = None
-
-        while True:
-
-            right_type = self.grid.getCellType(self.row, self.col - offset)
-            under_type = self.grid.getCellType(self.row + 1, self.col - offset)
-
-            if right_type != 0:
+        for i in range(1, self.dispersionRate + 1):
+            if self.grid.getCellType(self.row, self.col - i) != 0:
                 break
-
-            if under_type == 0:
-                left = -offset
-                break
-
-            offset += 1
+            else:
+                left = -i
+                
 
         # Check right cells
-        offset = 1
-        right = None
-
-        while True:
-
-            right_type = self.grid.getCellType(self.row, self.col + offset)
-            under_type = self.grid.getCellType(self.row + 1, self.col + offset)
-
-            if right_type != 0:
+        for i in range(1, self.dispersionRate + 1):
+            if self.grid.getCellType(self.row, self.col + i) != 0:
                 break
+            else:
+                right = i
 
-            if under_type == 0:
-                right = offset
-                break
-
-            offset += 1
-
-        # Check if the water can move left or right
-        if left is not None and right is not None:
+        if abs(left) > 0 and abs(right) > 0:
             if abs(left) < abs(right):
+                self.grid.swapCell(self.row, self.col, self.row, self.col + right)
+            elif abs(left) > abs(right):
                 self.grid.swapCell(self.row, self.col, self.row, self.col + left)
             else:
-                self.grid.swapCell(self.row, self.col, self.row, self.col + right)
-        elif left is not None:
+                step = choice([-1, 1])
+                self.grid.swapCell(self.row, self.col, self.row, self.col + right * step)
+        elif abs(left) > 0:
             self.grid.swapCell(self.row, self.col, self.row, self.col + left)
-        elif right is not None:
+        elif abs(right) > 0:
             self.grid.swapCell(self.row, self.col, self.row, self.col + right)
+

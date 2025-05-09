@@ -30,6 +30,7 @@ class Grid:
         self.place_cell_type = 1
         self.place_range = 1
 
+        self.iteration = 0
         self.grid = [[Cell(self, r, c) for c in range(cols)] for r in range(rows)]
 
     # Main functions
@@ -43,9 +44,23 @@ class Grid:
             sel_range = self.selectRange(self.mouse_grid_pos[1], self.mouse_grid_pos[0])
             self.addCells(sel_range)
 
+        
         for row in range(self.rows-1, -1, -1):
             for col in range(self.cols):
-                self.grid[row][col].update()
+                self.grid[row][col].updated = False
+
+        for row in range(self.rows-1, -1, -1):
+            if self.iteration % 2 == 0:
+                for col in range(self.cols):
+                    if not self.grid[row][col].updated:
+                        self.grid[row][col].update()
+                        self.grid[row][col].updated = True
+            else:
+                for col in range(self.cols-1, -1, -1):
+                    if not self.grid[row][col].updated:
+                        self.grid[row][col].update()
+
+        self.iteration += 1
 
 
     def render(self, screen):

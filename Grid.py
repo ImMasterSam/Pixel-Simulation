@@ -1,7 +1,7 @@
 import pygame
 import math
 from Cell import Cell
-from Cells.Sand import Sand
+from Cells.Solid_types import Sand
 from Cells.Liquid_types import Water, Oil
 from Cells.Rock import Rock
 

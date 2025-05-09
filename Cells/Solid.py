@@ -1,14 +1,9 @@
-import pygame
-from random import choice
 from Cell import Cell
 
-class Sand(Cell):
+class Solid(Cell):
 
-    color_list = [(235, 235, 0), (255, 255, 0), (205, 205, 0)]
-
-    def __init__(self, grid, row: int, col: int):
-        super().__init__(grid, row, col, 1)  # 1 for sand type
-        self.color = choice(self.color_list)
+    def __init__(self, grid, row: int, col: int, type: int = 0):
+        super().__init__(grid, row, col, type)
 
     def update(self):
         offsets = [0, -1, 1] 

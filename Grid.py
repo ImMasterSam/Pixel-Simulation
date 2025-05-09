@@ -13,6 +13,7 @@ class Grid:
         "Sand": 1,
         "Water": 2,
         "Rock": 3,
+        "Oil": 4,
     }
     Cell_Enum = {x : y for y, x in Cell_Type.items()}
 
@@ -71,6 +72,7 @@ class Grid:
             for col in range(self.cols):
                 self.grid[row][col].render(screen, self.cell_width, self.cell_height)
 
+        # Mouse Range
         grid_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
         sel_range = self.selectRange(self.mouse_grid_pos[1], self.mouse_grid_pos[0])

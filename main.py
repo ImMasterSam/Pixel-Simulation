@@ -3,10 +3,10 @@ from Grid import Grid
 from Text.FPS import FPS
 import asyncio
 
-Rows = 100
-Cols = 100
-Screen_width = 500
-Screen_height = 500
+Rows = 200
+Cols = 200
+Screen_width = 600
+Screen_height = 600
 TargetFPS = 60
 
 pygame.init()

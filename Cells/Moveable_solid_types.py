@@ -1,7 +1,7 @@
 from random import choice
-from Cells.Solid import Solid
+from Cells.Solid import MoveableSolid
 
-class Sand(Solid):
+class Sand(MoveableSolid):
 
     color_list = [(235, 235, 0), (255, 255, 0), (205, 205, 0)]
 

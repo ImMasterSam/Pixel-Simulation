@@ -1,9 +1,9 @@
 import pygame
 import math
 from Cell import Cell
-from Cells.Solid_types import Sand
+from Cells.Moveable_solid_types import Sand
 from Cells.Liquid_types import Water, Oil
-from Cells.Rock import Rock
+from Cells.Unmoveable_solid_types import Rock
 
 class Grid:
 

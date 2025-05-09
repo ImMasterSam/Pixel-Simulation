@@ -7,4 +7,4 @@ class ImmoveableSolid(Solid):
 
     def update(self):
         '''Unmoveable solids do not update'''
-        pass
+        self.updated = True

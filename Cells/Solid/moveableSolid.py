@@ -31,7 +31,7 @@ class MoveableSolid(Solid):
             if fall_dis != step:
                 self.isFreeFalling = False
                 direction = choice([-1, 1])
-                self.velocity = [self.velocity[1] * self.friction * direction, self.velocity[1] * (1 - self.friction)]
+                self.velocity = [self.velocity[0] + self.velocity[1] * direction, 0]
 
             self.grid.swapCell(self.row, self.col, self.row + fall_dis, self.col)
             
@@ -47,20 +47,19 @@ class MoveableSolid(Solid):
                 else:
                     move = i
             
-            self.velocity[0] *= self.friction
+            self.velocity[0] *= (1 - self.friction)
             self.grid.swapCell(self.row, self.col, self.row, self.col + move * direction)
-            self.isFreeFalling = True
 
-            # offsets = [0, -1, 1] 
+            # Check bottom, if empty then free fall
+            offsets = [0, -1, 1] 
 
-            # for offset in offsets:
-            #     next_row = self.row + 1
-            #     next_col = self.col + offset
+            for offset in offsets:
+                next_row = self.row + 1
+                next_col = self.col + offset
 
-            #     next_type = self.grid.getCellType(next_row, next_col)
-            #     if next_type == 0 or next_type == 2: 
-            #         if offset == 0:
-            #             self.isFreeFalling = True
-            #             self.velocity[1] = 1
-            #         self.grid.swapCell(self.row, self.col, next_row, next_col)
-            #         break 
+                next_type = self.grid.getCellType(next_row, next_col)
+                if next_type == 0 or next_type == 2: 
+                        self.isFreeFalling = True
+                        self.velocity[1] = 1
+
+        self.updated = True

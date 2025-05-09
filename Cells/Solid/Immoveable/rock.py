@@ -1,7 +1,7 @@
 from random import choice
-from Cells.Solid import UnmoveableSolid
+from Cells.Solid.immoveableSolid import ImmoveableSolid
 
-class Rock(UnmoveableSolid):
+class Rock(ImmoveableSolid):
 
     color_list = [(128, 128, 128), (150, 150, 150)]
 

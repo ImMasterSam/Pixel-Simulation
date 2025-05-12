@@ -3,7 +3,7 @@ import pygame
 from Grid import Grid
 from Text.FPS import FPS
 from Text.TypeText import TypeText
-from ControlPanel.Panel import Panel
+from ControlPanel.panel import Panel
 
 
 Rows = 200

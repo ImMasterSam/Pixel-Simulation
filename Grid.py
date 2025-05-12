@@ -1,6 +1,6 @@
 import pygame
 import math
-from ControlPanel.Panel import Panel
+from ControlPanel.panel import Panel
 from Cell import Cell
 from Cells.SolidObject.MoveableObject.sand import Sand
 from Cells.SolidObject.ImmoveableObject.rock import Rock

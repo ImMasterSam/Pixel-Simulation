@@ -10,7 +10,7 @@ class TypeText:
 
         self.font_size = font_size
         self.font_color = font_color
-        self.font = pygame.font.Font(None, font_size)
+        self.font = pygame.font.Font("Assets/Minecraft.ttf", font_size)
         self.text_surface = self.font.render(f"None", True, self.font_color)
 
     def update(self, panel: Panel):

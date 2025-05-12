@@ -3,8 +3,6 @@ from Cells.solid import Solid
 
 class MoveableSolid(Solid):
 
-    gravity = 0.1
-
     def __init__(self, grid, row: int, col: int, type: int = 0):
         super().__init__(grid, row, col, type)
         

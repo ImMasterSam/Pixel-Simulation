@@ -1,5 +1,5 @@
 from random import choice
-from Cells.Solid.moveableSolid import MoveableSolid
+from Cells.SolidObject.moveableSolid import MoveableSolid
 
 class Sand(MoveableSolid):
 

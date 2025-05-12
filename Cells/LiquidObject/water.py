@@ -14,5 +14,5 @@ class Water(Liquid):
     def __init__(self, grid, row: int, col: int):
         super().__init__(grid, row, col, 2)  # 2 for water type
         self.color = choice(self.color_list)
-        self.dispersionRate = 3
+        self.dispersionRate = 5
 

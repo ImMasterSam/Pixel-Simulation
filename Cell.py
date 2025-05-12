@@ -2,6 +2,8 @@ import pygame
 
 class Cell:
 
+    gravity = 0.1
+
     def __init__(self, grid, row: int, col: int, type: int = 0):
         self.grid = grid
         self.row = row

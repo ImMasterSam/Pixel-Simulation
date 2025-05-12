@@ -1,5 +1,5 @@
 from random import choice
-from Cells.Solid.immoveableSolid import ImmoveableSolid
+from Cells.SolidObject.immoveableSolid import ImmoveableSolid
 
 class Rock(ImmoveableSolid):
 

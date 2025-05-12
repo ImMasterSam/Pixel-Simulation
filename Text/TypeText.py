@@ -1,5 +1,5 @@
 import pygame
-from ControlPanel.Panel import Panel
+from ControlPanel.panel import Panel
 
 class TypeText:
 

@@ -1,9 +1,10 @@
+import asyncio
 import pygame
 from Grid import Grid
 from Text.FPS import FPS
 from Text.TypeText import TypeText
 from ControlPanel.Panel import Panel
-import asyncio
+
 
 Rows = 200
 Cols = 200
@@ -53,9 +54,6 @@ async def main():
         fps.render(screen)
         pygame.display.update()
 
-        await asyncio.sleep(0)
-
-    
+        await asyncio.sleep(0) 
 
 asyncio.run(main())
-pygame.quit()

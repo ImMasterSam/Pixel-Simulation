@@ -10,6 +10,7 @@ class Button:
         self.rect = pygame.Rect(pos[0], pos[1], scale, scale)
         self.hover = False
         self.active = False
+        self.selected = False
 
     def update(self, mouse_pos: tuple[int, int], active: bool):
         '''Updates the button state based on mouse position'''
@@ -19,6 +20,7 @@ class Button:
             self.hover = False
 
         self.active = active
+        self.selected = False
 
     def render(self, surface: pygame.Surface):
         '''Draws the button on the surface'''
@@ -27,9 +29,12 @@ class Button:
         if self.hover:
             pygame.draw.rect(surface, (255, 255, 255), self.rect, 2)
 
+        if self.selected:
+            pygame.draw.rect(surface, (0, 255, 0), self.rect, 1)
+
     def handleEvents(self, event: pygame.event.Event) -> bool:
         '''Handles events for the button'''
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.hover:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.hover and self.active:
             return True
         else:
             return False

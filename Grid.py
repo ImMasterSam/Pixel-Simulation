@@ -2,10 +2,10 @@ import pygame
 import math
 from ControlPanel.Panel import Panel
 from Cell import Cell
-from Cells.Solid.Moveable.sand import Sand
-from Cells.Solid.Immoveable.rock import Rock
-from Cells.Liquid.water import Water
-from Cells.Liquid.oil import Oil
+from Cells.SolidObject.MoveableObject.sand import Sand
+from Cells.SolidObject.ImmoveableObject.rock import Rock
+from Cells.LiquidObject.water import Water
+from Cells.LiquidObject.oil import Oil
 
 class Grid:
 
@@ -43,10 +43,9 @@ class Grid:
         self.place_cell_type = panel.place_cell_type
         self.mouse_grid_pos = (mouse_pos[0] // self.cell_width, mouse_pos[1] // self.cell_height)
 
-        if self.mouse_pressed:
+        if self.mouse_pressed and (not panel.ishover(mouse_pos)):
             sel_range = self.selectRange(self.mouse_grid_pos[1], self.mouse_grid_pos[0])
             self.addCells(sel_range)
-
         
         for row in range(self.rows-1, -1, -1):
             for col in range(self.cols):

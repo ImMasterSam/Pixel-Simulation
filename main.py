@@ -22,7 +22,7 @@ bg.fill((0, 0, 0))
 main_grid = Grid(Rows, Cols, Screen_width, Screen_height)
 panel = Panel()
 fps = FPS(TargetFPS, Screen_width - 60)
-typeText = TypeText()
+typeText = TypeText(x = 10, y = 5)
 
 async def main():
 

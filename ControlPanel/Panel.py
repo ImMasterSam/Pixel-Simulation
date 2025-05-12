@@ -48,6 +48,8 @@ class Panel:
         '''Updates the panel'''
         for button in self.buttons:
             button.update(mouse_pos, self.open)
+        
+        self.buttons[self.place_cell_type - 1].selected = True
 
     def handleEvents(self, event: pygame.event.Event):
         '''Handles events for the panel'''
@@ -58,6 +60,11 @@ class Panel:
             if event.key == pygame.K_TAB:
                 self.open = not self.open
 
+    def ishover(self, mouse_pos: tuple[int, int]) -> bool:
+        '''Checks if the mouse is hovering over the panel'''
+        if self.open:
+            return self.margin < mouse_pos[0] < self.width + self.margin and self.margin < mouse_pos[1] < self.height + self.margin
+        return False
 
     # Calculate Function
     def getResolutePos(self, idx: int) -> tuple[int, int]:

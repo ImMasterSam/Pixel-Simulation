@@ -15,4 +15,6 @@ class Oil(Liquid):
         super().__init__(grid, row, col, 4)  # 4 for oil type
         self.color = choice(self.color_list)
         self.dispersionRate = 2
+        
+        self.density = 0.8
 

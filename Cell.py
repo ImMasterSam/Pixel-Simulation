@@ -12,8 +12,12 @@ class Cell:
         self.type = type
         self.updated = False
 
+        self.density = 0
+        self.isFreeFalling = False
+
     def update(self):
         '''Override this method in subclasses to define the behavior of the cell'''
+        self.updated = True
         pass
     
     def render(self, screen, cell_width: int, cell_height: int):

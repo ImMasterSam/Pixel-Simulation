@@ -16,3 +16,5 @@ class Water(Liquid):
         self.color = choice(self.color_list)
         self.dispersionRate = 5
 
+        self.density = 1
+

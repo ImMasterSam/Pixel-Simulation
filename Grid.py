@@ -119,9 +119,9 @@ class Grid:
 
     # Control functions
     @classmethod
-    def setCellType(self, cell_type: int):
+    def setCellType(cls, cell_type: int):
         '''Sets the type of the cell to be placed'''
-        self.place_cell_type = cell_type
+        cls.place_cell_type = cell_type
                 
     # Cell functions
     def selectRange(self, row: int, col: int) -> list[tuple[int, int]]:
@@ -168,15 +168,20 @@ class Grid:
                     case 4:
                         self.grid[row][col] = Oil(self, row, col)
 
-    def getCellType(self, row: int, col: int) -> int:
+    def getCellInfo(self, row: int, col: int) -> dict:
         '''Returns the type of the cell at the given position'''
 
         # Check if the row and col are within bounds
         # Return None if out of bounds
         if (row >= 0 and row < self.rows) and (col >= 0 and col < self.cols):
-            return self.grid[row][col].type
-        else:
-            return None
+            type = self.grid[row][col].type
+            density = self.grid[row][col].density
+        else: 
+            type = -1
+            density = 1e9 # Arbitrary large number
+
+        return {"type": type,
+                "density": density}
         
     def swapCell(self, row1: int, col1: int, row2: int, col2: int):
         if (row1 >= 0 and row1 < self.rows) and (col1 >= 0 and col1 < self.cols) and (row2 >= 0 and row2 < self.rows) and (col2 >= 0 and col2 < self.cols):

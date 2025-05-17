@@ -20,9 +20,9 @@ bg = pygame.Surface(screen.get_size())
 bg.fill((0, 0, 0))
 
 main_grid = Grid(Rows, Cols, Screen_width, Screen_height)
-panel = Panel()
+panel = Panel(x = 20, y = 40, scale = 25, margin = 10)
 fps = FPS(TargetFPS, 20, Screen_width - 100)
-typeText = TypeText(x = 10, y = 5)
+typeText = TypeText(x = 20, y = 10)
 
 async def main():
 

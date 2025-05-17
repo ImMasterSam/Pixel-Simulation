@@ -14,8 +14,10 @@ class Panel:
     cell_enum = {x : y for y, x in cell_type.items()}
     cell_color = [(0, 0, 0), (255, 255, 0), (0, 0, 255), (128, 128, 128), (50, 0, 0)]
 
-    def __init__(self, scale: int = 30, margin: int = 15):
+    def __init__(self, x: int, y: int, scale: int = 25, margin: int = 10):
 
+        self.x = x
+        self.y = y
         self.width = scale * len(self.cell_type) + margin * (len(self.cell_type) + 1)
         self.height = scale + margin * 2
 
@@ -39,7 +41,7 @@ class Panel:
             return
         
         self.bg.fill(self.bg_color)
-        screen.blit(self.bg, (self.margin, self.margin))
+        screen.blit(self.bg, (self.x, self.y))
 
         for button in self.buttons:
             button.render(screen)
@@ -63,12 +65,12 @@ class Panel:
     def ishover(self, mouse_pos: tuple[int, int]) -> bool:
         '''Checks if the mouse is hovering over the panel'''
         if self.open:
-            return self.margin < mouse_pos[0] < self.width + self.margin and self.margin < mouse_pos[1] < self.height + self.margin
+            return self.x < mouse_pos[0] < self.width + self.x and self.y < mouse_pos[1] < self.height + self.y
         return False
 
     # Calculate Function
     def getResolutePos(self, idx: int) -> tuple[int, int]:
         '''Get the relative position of the mouse on the panel'''
-        x = self.margin + (idx % len(self.cell_color)) * self.scale + (idx % len(self.cell_color) + 1) * self.margin
-        y = self.margin + (idx // len(self.cell_color)) * self.scale + (idx // len(self.cell_color) + 1) * self.margin
+        x = self.x + (idx % len(self.cell_color)) * self.scale + (idx % len(self.cell_color) + 1) * self.margin
+        y = self.y + (idx // len(self.cell_color)) * self.scale + (idx // len(self.cell_color) + 1) * self.margin
         return x, y

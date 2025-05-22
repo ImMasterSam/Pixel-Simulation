@@ -21,7 +21,9 @@ class MoveableSolid(Solid):
             fall_dis = 0
 
             for i in range(1, step + 1):
-                if self.grid.getCellInfo(self.row + i, self.col)['type'] != 0:
+                if self.row + i >= self.grid.rows:
+                    break
+                if self.grid.gridArray[self.row + i][self.col].type != 0:
                     break
                 else:
                     fall_dis = i
@@ -42,14 +44,17 @@ class MoveableSolid(Solid):
                 next_row = self.row + 1
                 next_col = self.col + offset
 
-                next_cell = self.grid.getCellInfo(next_row, next_col)
-                if next_cell['type'] == 0: 
+                if next_row >= self.grid.rows or next_col >= self.grid.cols or next_col < 0:
+                    continue
+
+                next_cell = self.grid.gridArray[next_row][next_col]
+                if next_cell.type == 0: 
                     self.grid.swapCell(self.row, self.col, next_row, next_col)
                     self.isFreeFalling = True
                     self.velocity[1] = 1
                     self.updated = True
                     return
-                if next_cell['density'] < self.density: 
+                if next_cell.density < self.density: 
                     self.grid.swapCell(self.row, self.col, next_row, next_col)
                     self.updated = True
                     return
@@ -60,7 +65,9 @@ class MoveableSolid(Solid):
             move = 0
 
             for i in range(1, step + 1):
-                if self.grid.getCellInfo(self.row, self.col + i * direction)['type'] != 0:
+                if self.col + i * direction >= self.grid.cols or self.col + i * direction < 0:
+                    break
+                if self.grid.gridArray[self.row][self.col + i * direction].type != 0:
                     break
                 else:
                     move = i

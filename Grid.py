@@ -34,7 +34,11 @@ class Grid:
         self.place_range = 1
 
         self.iteration = 0
-        self.grid = [[Cell(self, r, c) for c in range(cols)] for r in range(rows)]
+        self.gridArray = [[Cell(self, r, c) for c in range(cols)] for r in range(rows)]
+
+        for row in range(rows//2, rows):
+            for col in range(cols):
+                self.gridArray[row][col] = Sand(self, row, col)
 
     # Main functions
     def update(self, mouse_pos: tuple[int, int], panel: Panel):
@@ -49,18 +53,18 @@ class Grid:
         
         for row in range(self.rows-1, -1, -1):
             for col in range(self.cols):
-                self.grid[row][col].updated = False
+                self.gridArray[row][col].updated = False
 
         for row in range(self.rows-1, -1, -1):
             if self.iteration % 2 == 0:
                 for col in range(self.cols):
-                    if not self.grid[row][col].updated:
-                        self.grid[row][col].update()
-                        self.grid[row][col].updated = True
+                    if not self.gridArray[row][col].updated:
+                        self.gridArray[row][col].update()
+                        self.gridArray[row][col].updated = True
             else:
                 for col in range(self.cols-1, -1, -1):
-                    if not self.grid[row][col].updated:
-                        self.grid[row][col].update()
+                    if not self.gridArray[row][col].updated:
+                        self.gridArray[row][col].update()
 
         self.iteration += 1
 
@@ -70,7 +74,7 @@ class Grid:
 
         for row in range(self.rows):
             for col in range(self.cols):
-                self.grid[row][col].render(screen, self.cell_width, self.cell_height)
+                self.gridArray[row][col].render(screen, self.cell_width, self.cell_height)
 
         # Mouse Range
         grid_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
@@ -115,7 +119,7 @@ class Grid:
             if event.key == pygame.K_4:
                 self.place_cell_type = 4
             if event.key == pygame.K_r:
-                self.grid = [[Cell(self, r, c) for c in range(self.cols)] for r in range(self.rows)]
+                self.gridArray = [[Cell(self, r, c) for c in range(self.cols)] for r in range(self.rows)]
 
     # Control functions
     @classmethod
@@ -151,42 +155,41 @@ class Grid:
         for row, col in pos:
 
             if self.mouse_erase:
-                if self.grid[row][col].type == 0:
+                if self.gridArray[row][col].type == 0:
                     continue
-                self.grid[row][col] = Cell(self, row, col)
+                self.gridArray[row][col] = Cell(self, row, col)
             else:         
-                if self.grid[row][col].type != 0:
+                if self.gridArray[row][col].type != 0:
                     continue
                 
                 match self.place_cell_type:
                     case 1:
-                        self.grid[row][col] = Sand(self, row, col)
+                        self.gridArray[row][col] = Sand(self, row, col)
                     case 2:
-                        self.grid[row][col] = Water(self, row, col)
+                        self.gridArray[row][col] = Water(self, row, col)
                     case 3:
-                        self.grid[row][col] = Rock(self, row, col)
+                        self.gridArray[row][col] = Rock(self, row, col)
                     case 4:
-                        self.grid[row][col] = Oil(self, row, col)
+                        self.gridArray[row][col] = Oil(self, row, col)
 
-    def getCellInfo(self, row: int, col: int) -> dict:
+    def getCellInfo(self, row: int, col: int) -> tuple:
         '''Returns the type of the cell at the given position'''
 
         # Check if the row and col are within bounds
         # Return None if out of bounds
         if (row >= 0 and row < self.rows) and (col >= 0 and col < self.cols):
-            type = self.grid[row][col].type
-            density = self.grid[row][col].density
+            type = self.gridArray[row][col].type
+            density = self.gridArray[row][col].density
         else: 
             type = -1
             density = 1e9 # Arbitrary large number
 
-        return {"type": type,
-                "density": density}
+        return (type, density)
         
     def swapCell(self, row1: int, col1: int, row2: int, col2: int):
         if (row1 >= 0 and row1 < self.rows) and (col1 >= 0 and col1 < self.cols) and (row2 >= 0 and row2 < self.rows) and (col2 >= 0 and col2 < self.cols):
             
-            self.grid[row1][col1], self.grid[row2][col2] = self.grid[row2][col2], self.grid[row1][col1]
+            self.gridArray[row1][col1], self.gridArray[row2][col2] = self.gridArray[row2][col2], self.gridArray[row1][col1]
             # Update positions
-            self.grid[row1][col1].row, self.grid[row1][col1].col = row1, col1
-            self.grid[row2][col2].row, self.grid[row2][col2].col = row2, col2
+            self.gridArray[row1][col1].row, self.gridArray[row1][col1].col = row1, col1
+            self.gridArray[row2][col2].row, self.gridArray[row2][col2].col = row2, col2

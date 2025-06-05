@@ -36,10 +36,6 @@ class Grid:
         self.iteration = 0
         self.gridArray = [[Cell(self, r, c) for c in range(cols)] for r in range(rows)]
 
-        for row in range(rows//2, rows):
-            for col in range(cols):
-                self.gridArray[row][col] = Sand(self, row, col)
-
     # Main functions
     def update(self, mouse_pos: tuple[int, int], panel: Panel):
         '''Updates every cells of the grid'''
